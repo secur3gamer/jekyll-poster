@@ -9,13 +9,19 @@
 - Formatting options for the post body
   - Currently the script only allows for basic text input, future versions will be able to use any markdown formatting
 - Choose between post for today or a future post
-- Jekyll build on script complete
+- ~~Jekyll build on script complete~~ DONE
+- Timezone variable
 
 **How to use**
-- Change the path to your Jekyll blog "_posts" folder
-- Run and fill out the information!
+- Change $jekyllPath and $jekyllPostPath to match your Jekyll blog
+- Change time and timezone offset (default at the moment is +0200) as required
+- Run the script (i.e. bash jekyll_poster.sh) and fill out the information!
 - Make final edits to the body
-- Post it!
+- Hit Enter
+- ????
+- PROFIT!!!
+
+If you use this all I ask is please leave in the credit at the end! Thanks, and happy blogging!
 
 ---
 **Jekyll Poster in action**
@@ -24,8 +30,5 @@
 
 ---
 **Result**
-
-*Note*: The GIF corresponds to a different file than the one below. The image below is to show corrected filename even if non URL-friendly characters are introduced.
-- The filename for the below image is "2020-08-27-todays-post.md"
 
 ![Jekyll Poster Screenshot](jekyll_poster_screenshot.png?raw=true)

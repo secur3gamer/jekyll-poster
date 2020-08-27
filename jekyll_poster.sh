@@ -2,12 +2,14 @@
 
 # 1970-01-01
 today=$(date +"%Y-%m-%d")
-
+jekyllPath="/home/$USER/Documents/jekyll_blogs/cyklonsolutions_blog-testing"
+jekyllPostPath="/home/$USER/Documents/jekyll_blogs/cyklonsolutions_blog-testing/_posts"
 # Below are the user prompts
 echo "Enter the title of the post"
 read jekyllPost
 
-echo "Is there a banner image? If so type the file name (including extension, e.g. .jpg)"
+echo "If there's an image, type the file name (including extension, e.g. image.jpg)"
+echo "If there is no banner image please leave blank and press Enter"
 read bannerImage
 
 echo "Type the category"
@@ -23,21 +25,27 @@ read blogPostContent
 blogFileNameSpaces="$today-$jekyllPost"
 blogFileName=$(echo -e "$blogFileNameSpaces" | tr '[:upper:]' [:lower:] | tr '[:blank:]' - | tr -cd "[[:alnum:]-]")
 bannerImageName=$(echo -e "$bannerImage" | tr -cd "[[[[:alnum:]-]_].]")
+jekyllPostQuote=$(echo '"'$jekyllPost'"')
+postTagsCommas=$(echo -e $postTags | tr '[:blank:]' , )
 
 echo "---
 layout: post
-title:  "$jekyllPost"
-date:   "$today 09:00:00 +0200"
+title:  $jekyllPostQuote
+date:   $today 09:00:00 +0200
 banner_image: "$bannerImageName"
 categories: "$postCategory"
-tags: ["$postTags"]
+tags: ["$postTagsCommas"]
 ---
 
 $blogPostContent
 
 <hr />
 
-{% include end_blurb.html %}
+<small>Post created with [Jekyll Poster](https://github.com/secur3gamer/jekyll-poster)</small>
 
-" >> /home/$USER/Documents/bash/jekyll_poster_git/"$blogFileName".md
-# Enter the _post directory path above between ">>" and "$blogFileName"
+" >> $jekyllPostPath/"$blogFileName".md
+
+echo "Make final edits to the post '$blogFileName.md' and then press Enter to build"
+read -n 1 -s -r -p "Press any key to continue"
+
+cd $jekyllPath && bundle exec jekyll build
