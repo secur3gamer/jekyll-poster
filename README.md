@@ -1,3 +1,5 @@
+# Jekyll Poster
+
 **Features**
 - Creates markdown files formatted for Jekyll with correct filename (YEAR-MONTH-DAY-TITLE.md)
 - Removes the hassle of manually creating your post files
