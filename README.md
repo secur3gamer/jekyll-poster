@@ -12,3 +12,16 @@
 - Run and fill out the information!
 - Make final edits to the body
 - Post it!
+
+---
+**Jekyll Poster in action**
+
+![Jekyll Poster in action](jekyll_poster_in_action.gif?raw=true)
+
+---
+**Result**
+
+*Note*: The GIF corresponds to a different file than the one below. The image below is to show corrected filename even if non URL-friendly characters are introduced.
+- The filename for the below image is "2020-08-27-todays-post.md"
+
+![Jekyll Poster Screenshot](jekyll_poster_screenshot.png?raw=true)
