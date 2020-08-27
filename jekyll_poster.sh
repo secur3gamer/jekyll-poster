@@ -1,7 +1,9 @@
 #!/bin/#!/usr/bin/env bash
 
+# 1970-01-01
 today=$(date +"%Y-%m-%d")
 
+# Below are the user prompts
 echo "Enter the title of the post"
 read jekyllPost
 
@@ -16,6 +18,7 @@ read postTags
 
 echo "Type the body of the post"
 read blogPostContent
+# End user prompts
 
 blogFileNameSpaces="$today-$jekyllPost"
 blogFileName=$(echo -e "$blogFileNameSpaces" | tr '[:upper:]' [:lower:] | tr '[:blank:]' - | tr -cd "[[:alnum:]-]")
@@ -36,4 +39,5 @@ $blogPostContent
 
 {% include end_blurb.html %}
 
-" >> /home/mang/Documents/bash/"$blogFileName".md
+" >> /home/$USER/Documents/bash/jekyll_poster_git/"$blogFileName".md
+# Enter the _post directory path above between ">>" and "$blogFileName"
