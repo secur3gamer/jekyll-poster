@@ -4,6 +4,7 @@
 - Creates markdown files formatted for Jekyll with correct filename (YEAR-MONTH-DAY-TITLE.md)
 - Removes the hassle of manually creating your post files
   - Just fill out the information and presto!
+- Runs "bundle exec jekyll build" on script completion
 
 **Features yet to come**
 - Formatting options for the post body
