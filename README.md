@@ -7,11 +7,11 @@
 - Runs "bundle exec jekyll build" on script completion
 
 **Features yet to come**
-- Formatting options for the post body
-  - Currently the script only allows for basic text input, future versions will be able to use any markdown formatting
-- Choose between post for today or a future post
+- ~~Formatting options for the post body~~ DONE
+  ~~- Currently the script only allows for basic text input, future versions will be able to use any markdown formatting~~
+- ~~Choose between post for today or a future post~~ DONE
 - ~~Jekyll build on script complete~~ DONE
-- Timezone variable
+- ~~Timezone variable~~ DONE
 
 **How to use**
 - Change $jekyllPath and $jekyllPostPath to match your Jekyll blog
