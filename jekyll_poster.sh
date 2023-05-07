@@ -1,34 +1,35 @@
-#!/bin/#!/usr/bin/env bash
+#!/usr/bin/env bash
 
-# 1970-01-01
+# Set variables
 today=$(date +"%Y-%m-%d")
 jekyllPath="/home/$USER/Documents/jekyll_blogs/cyklonsolutions_blog-testing"
-jekyllPostPath="/home/$USER/Documents/jekyll_blogs/cyklonsolutions_blog-testing/_posts"
-# Below are the user prompts
-echo "Enter the title of the post"
+jekyllPostPath="${jekyllPath}/_posts"
+
+# User prompts
+echo "Enter the title of the post:"
 read jekyllPost
 
-echo "If there's an image, type the file name (including extension, e.g. image.jpg)"
-echo "If there is no banner image please leave blank and press Enter"
+echo "If there's an image, type the file name (including extension, e.g. image.jpg). Otherwise, leave blank and press Enter:"
 read bannerImage
 
-echo "Type the category"
+echo "Type the category:"
 read postCategory
 
-echo "Type the tags (separated by spaces, multi-word tags separated by a hyphen)"
+echo "Type the tags (separated by spaces, multi-word tags separated by a hyphen):"
 read postTags
 
-echo "Type the body of the post"
+echo "Type the body of the post:"
 read blogPostContent
-# End user prompts
 
-blogFileNameSpaces="$today-$jekyllPost"
-blogFileName=$(echo -e "$blogFileNameSpaces" | tr '[:upper:]' [:lower:] | tr '[:blank:]' - | tr -cd "[[:alnum:]-]")
-bannerImageName=$(echo -e "$bannerImage" | tr -cd "[[[[:alnum:]-]_].]")
-jekyllPostQuote=$(echo '"'$jekyllPost'"')
+# Process input
+blogFileName=$(echo -e "$today-$jekyllPost" | tr '[:upper:]' '[:lower:]' | tr '[:blank:]' - | tr -cd "[[:alnum:]-]")
+bannerImageName=$(echo -e "$bannerImage" | tr -cd "[[:alnum:]_-].")
+jekyllPostQuote=$(echo "\"$jekyllPost\"")
 postTagsCommas=$(echo -e $postTags | tr '[:blank:]' , )
 
-echo "---
+# Create the post
+cat <<EOT >> "${jekyllPostPath}/${blogFileName}.md"
+---
 layout: post
 title:  $jekyllPostQuote
 date:   $today 09:00:00 +0200
@@ -42,10 +43,9 @@ $blogPostContent
 <hr />
 
 <small>Post created with [Jekyll Poster](https://github.com/secur3gamer/jekyll-poster)</small>
+EOT
 
-" >> $jekyllPostPath/"$blogFileName".md
-
-echo "Make final edits to the post '$blogFileName.md' and then press Enter to build"
-read -n 1 -s -r -p "Press any key to continue"
-
+# Build the site
+echo "Make final edits to the post '${blogFileName}.md' and then press Enter to build"
+read -p "Press any key to continue" -n 1 -r -s
 cd $jekyllPath && bundle exec jekyll build
