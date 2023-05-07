@@ -1,29 +1,59 @@
 #!/usr/bin/env bash
 
-# Set variables
-today=$(date +"%Y-%m-%d")
-jekyllPath="/home/$USER/Documents/jekyll_blogs/cyklonsolutions_blog-testing"
+# Save the current terminal settings
+saved_stty=$(stty -g)
+
+# Set the erase character to the backspace character
+stty erase '^H'
+
+# Restore the saved terminal settings when the script exits
+trap 'stty "$saved_stty"' EXIT
+
+# Function to get Jekyll path
+get_jekyllPath() {
+  read -p "Enter the path of your Jekyll blog (leave blank for default path): " input_jekyllPath
+  if [ -z "$input_jekyllPath" ]; then
+    echo $default_jekyllPath
+  else
+    echo $input_jekyllPath
+  fi
+}
+
+# Set default Jekyll path and get the path from the user
+default_jekyllPath="/home/$USER/code/jekyll/jekyllpostertest"
+jekyllPath=$(get_jekyllPath)
 jekyllPostPath="${jekyllPath}/_posts"
+echo "Jekyll Path: $jekyllPath"
+echo "Jekyll Post Path: $jekyllPostPath"
 
 # User prompts
-echo "Enter the title of the post:"
-read jekyllPost
+read -p "Enter the title of the post: " jekyllPost
+read -p "If there's an image, type the file name (including extension, e.g. image.jpg). Otherwise, leave blank and press Enter: " bannerImage
+read -p "Type the category: " postCategory
+read -p "Type the tags (separated by spaces, multi-word tags separated by a hyphen): " postTags
+read -p "Choose between post for today or a future post (type 'today' or 'future'): " postDateChoice
 
-echo "If there's an image, type the file name (including extension, e.g. image.jpg). Otherwise, leave blank and press Enter:"
-read bannerImage
+if [ "$postDateChoice" == "today" ]; then
+  post_date=$(date +"%Y-%m-%d")
+else
+  read -p "Enter the date for the future post (YYYY-MM-DD): " post_date
+fi
 
-echo "Type the category:"
-read postCategory
+read -p "Enter the time zone (e.g. +0200): " timeZone
 
-echo "Type the tags (separated by spaces, multi-word tags separated by a hyphen):"
-read postTags
-
-echo "Type the body of the post:"
-read blogPostContent
+echo -e "Type the body of the post (use any markdown formatting):\nTo finish the post body, type 'EOF' on a new line and press Enter."
+blogPostContent=""
+while true; do
+  read -r line
+  if [[ "$line" == "EOF" ]]; then
+    break
+  fi
+  blogPostContent+="$line"$'\n'
+done
 
 # Process input
-blogFileName=$(echo -e "$today-$jekyllPost" | tr '[:upper:]' '[:lower:]' | tr '[:blank:]' - | tr -cd "[[:alnum:]-]")
-bannerImageName=$(echo -e "$bannerImage" | tr -cd "[[:alnum:]_-].")
+blogFileName=$(echo -e "$post_date-$jekyllPost" | tr '[:upper:]' '[:lower:]' | tr '[:blank:]' - | tr -cd "[[:alnum:]-]")
+bannerImageName=$(echo -e "$bannerImage" | tr -cd "[:alnum:]_.-")
 jekyllPostQuote=$(echo "\"$jekyllPost\"")
 postTagsCommas=$(echo -e $postTags | tr '[:blank:]' , )
 
@@ -32,7 +62,7 @@ cat <<EOT >> "${jekyllPostPath}/${blogFileName}.md"
 ---
 layout: post
 title:  $jekyllPostQuote
-date:   $today 09:00:00 +0200
+date:   $post_date 09:00:00 $timeZone
 banner_image: "$bannerImageName"
 categories: "$postCategory"
 tags: ["$postTagsCommas"]
